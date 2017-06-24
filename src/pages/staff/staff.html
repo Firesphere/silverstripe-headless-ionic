@@ -1,0 +1,21 @@
+<ion-header class="bar-positive">
+    <ion-navbar>
+        <ion-title>Staff - Pull to refresh</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content      pullingIcon="arrow-dropdown"
+                                    pullingText="Pull to refresh"
+                                    refreshingSpinner="circles"
+                                    refreshingText="Refreshing..."></ion-refresher-content>
+    </ion-refresher>
+    <h2>Hello Members!</h2>
+    <ul>
+        <li *ngFor="let entry of data | async | select: 'readMembers'">
+            Name: {{entry.Name}} {{entry.Surname}}<br/>
+            Email: {{entry.Email}}
+        </li>
+    </ul>
+</ion-content>

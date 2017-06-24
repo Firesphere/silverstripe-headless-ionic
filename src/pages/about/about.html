@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            About
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-item text-wrap>This is an Ionic demo project to show the SilverStripe 4 GraphQL Headless powers using Ionic.
+        It fetches the users from the demo-endpoint <code>ReadMembersQueryCreator</code> which is called on
+        the Staff page with the <code>readMembers</code> query.
+    </ion-item>
+    <ion-item text-wrap>In <code>src/app/app.module.ts</code>, the GraphQL endpoint is hardcoded. Update it to work with
+        your endpoint.
+    </ion-item>
+    <ion-item text-wrap>To adjust to another call, and/or have the data from a different call, adjust the
+        query to your needs.
+    </ion-item>
+    <ion-item text-wrap>From the demo files from SilverStripe/silverstripe-graphql, you can use
+        <code>paginatedReadMembers</code> to paginate the members
+    </ion-item>
+    <ion-item text-wrap>To change the data displayed, have a look at the available data in the call and update your
+        requirements as needed in <code>staff.ts</code> and <code>staff.html</code>
+    </ion-item>
+    <ion-item>For more information on Ionic, visit the <a href="https://ionicframework.com/docs/">Ionic documentation</a>.</ion-item>
+</ion-content>
