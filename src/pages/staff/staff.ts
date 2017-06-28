@@ -23,20 +23,26 @@ interface QueryResponse {
 })
 export class StaffPage implements OnInit {
     data: any;
+    loading: boolean;
+    token: string;
 
     constructor(public navCtrl: NavController, private apollo: Apollo) {
+        this.loading = true;
+        this.token = window.localStorage.getItem('token');
     }
 
     ngOnInit() {
         this.data = this.apollo.watchQuery<QueryResponse>({
             query: MemberList
         });
-
+        this.loading = false;
     }
 
     doRefresh = function (refresher) {
+        this.loading = true;
         this.data.refetch();
         refresher.complete();
+        this.loading = false;
     };
 
 }

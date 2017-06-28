@@ -2,21 +2,20 @@ import {NgModule, ErrorHandler} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {MyApp} from './app.component';
-
+import {IonicStorageModule} from '@ionic/storage';
+import {SQLite} from '@ionic-native/sqlite'
+// Pages
 import {AboutPage} from '../pages/about/about';
 import {ContactPage} from '../pages/contact/contact';
 import {HomePage} from '../pages/home/home';
 import {TabsPage} from '../pages/tabs/tabs';
 import {StaffPage} from '../pages/staff/staff';
+import {ModalPage} from '../helpers/login';
 
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {ApolloModule} from 'apollo-angular';
 import {ApolloClient, createNetworkInterface} from 'apollo-client';
-import {printRequest} from 'apollo-client/transport/networkInterface';
-import qs from 'qs';
-
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 const networkInterface = createNetworkInterface({
     uri: 'http://localhost:8080/graphql/',
@@ -24,24 +23,19 @@ const networkInterface = createNetworkInterface({
         credentials: 'same-origin',
     },
 });
+// copied from CMS to get the GraphQL working. Needs a bit of rework
 networkInterface.use([{
     applyMiddleware(req, next) {
-        const entries = printRequest(req.request);
-
+        const token = localStorage.getItem('token');
         // eslint-disable-next-line no-param-reassign
         req.options.headers = Object.assign(
             {},
             req.options.headers,
             {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                'Authorization': token ? `Bearer ${token}` : null,
+                'Content-Type': 'application/json;charset=UTF-8',
             }
         );
-        // eslint-disable-next-line no-param-reassign
-        req.options.body = qs.stringify(Object.assign(
-            {},
-            entries,
-            {variables: JSON.stringify(entries.variables)}
-        ));
         next();
     },
 }]);
@@ -61,12 +55,16 @@ export function provideClient(): ApolloClient {
         ContactPage,
         HomePage,
         TabsPage,
-        StaffPage
+        StaffPage,
+        ModalPage
     ],
     imports: [
         BrowserModule,
-        IonicModule.forRoot(MyApp),
-        ApolloModule.forRoot(provideClient)
+        IonicModule.forRoot(MyApp, {
+            tabsPlacement: 'bottom'
+        }),
+        ApolloModule.forRoot(provideClient),
+        IonicStorageModule.forRoot()
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -75,15 +73,14 @@ export function provideClient(): ApolloClient {
         ContactPage,
         HomePage,
         TabsPage,
-        StaffPage
+        StaffPage,
+        ModalPage
     ],
     providers: [
         StatusBar,
         SplashScreen,
+        SQLite,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })
-export class AppModule {
-}
-
-platformBrowserDynamic().bootstrapModule(AppModule);
+export class AppModule {}
