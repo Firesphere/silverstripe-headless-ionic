@@ -5,7 +5,11 @@ import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 const member = gql`
           mutation createToken($Email: String!, $Password: String!){
-          createToken(Email: $Email, Password: $Password) 
+          createToken(Email: $Email, Password: $Password) {
+              ID,
+              Token,
+              FirstName
+          }
         }`;
 @Component({
     templateUrl: 'login.html'
@@ -30,9 +34,9 @@ export class ModalPage {
     }
 
     loginForm() {
-        const name = this.login.controls.username['_value'];
-        const pass = this.login.controls.password['_value'];
-
+        const name = this.login.value['username'];
+        const pass = this.login.value['password'];
+        window.localStorage.removeItem('token');
         this.apollo.mutate({
             mutation: member,
             variables: {
@@ -40,7 +44,7 @@ export class ModalPage {
                 Password: pass
             }
         }).subscribe(({data}) => {
-            window.localStorage.setItem('token', data['createToken']);
+            window.localStorage.setItem('token', data['createToken']['Token']);
             this.dismiss();
         });
     }
