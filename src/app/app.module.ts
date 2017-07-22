@@ -11,6 +11,7 @@ import {HomePage} from '../pages/home/home';
 import {TabsPage} from '../pages/tabs/tabs';
 import {StaffPage} from '../pages/staff/staff';
 import {ModalPage} from '../helpers/login';
+import {RegisterPage} from '../pages/register/register';
 
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
@@ -56,7 +57,8 @@ export function provideClient(): ApolloClient {
         HomePage,
         TabsPage,
         StaffPage,
-        ModalPage
+        ModalPage,
+        RegisterPage,
     ],
     imports: [
         BrowserModule,
@@ -74,7 +76,8 @@ export function provideClient(): ApolloClient {
         HomePage,
         TabsPage,
         StaffPage,
-        ModalPage
+        ModalPage,
+        RegisterPage,
     ],
     providers: [
         StatusBar,

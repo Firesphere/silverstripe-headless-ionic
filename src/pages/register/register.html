@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Register
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="register" (ngSubmit)="registerForm()">
+    <ion-list>
+      <ion-item>
+        <h2>Enter your info</h2>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>Username</ion-label>
+        <ion-input type="text" value="" formControlName="username"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <button block>Register</button>
+    </div>
+  </form>
+</ion-content>
