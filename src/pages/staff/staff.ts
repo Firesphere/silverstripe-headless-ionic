@@ -5,11 +5,12 @@ import gql from 'graphql-tag';
 
 // We use the gql tag to parse our query string into a query document
 const MemberList = gql`
-  query { readMembers {
-    Email: Email,
-    Name: FirstName,
-    Surname: Surname
-}}`;
+  query { readMembers { edges { node {
+    Email
+    FirstName
+    Surname
+  }}}}
+`;
 
 interface QueryResponse {
     Email;
@@ -22,7 +23,7 @@ interface QueryResponse {
     templateUrl: 'staff.html'
 })
 export class StaffPage implements OnInit {
-    data: any;
+    staffMembers: any;
     loading: boolean;
     token: string;
 
@@ -32,10 +33,13 @@ export class StaffPage implements OnInit {
     }
 
     ngOnInit() {
-        this.data = this.apollo.watchQuery<QueryResponse>({
-            query: MemberList
-        });
-        this.loading = false;
+      const self = this;
+      this.apollo.watchQuery<QueryResponse>({
+          query: MemberList
+      }).subscribe(function (result) {
+          self.staffMembers = (result.data as any).readMembers.edges.map(edge => edge.node);
+          self.loading = false;
+      });
     }
 
     doRefresh = function (refresher) {

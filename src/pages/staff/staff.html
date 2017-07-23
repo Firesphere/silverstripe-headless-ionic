@@ -11,12 +11,13 @@
                                refreshingSpinner="circles"
                                refreshingText="Refreshing..."></ion-refresher-content>
     </ion-refresher>
-    <h2>Hello Members!</h2>
+    <h2 *ngIf="!loading">Hello Members!</h2>
+    <h2 *ngIf="loading">loading...</h2>
     <ion-item>
-        <ul>
-            <li *ngFor="let entry of data | async | select: 'readMembers'">
-                Name: {{entry.Name}} {{entry.Surname}}<br/>
-                Email: {{entry.Email}}
+        <ul *ngIf="!loading">
+            <li *ngFor="let person of staffMembers">
+                <b>{{person.FirstName}} {{person.Surname}}</b><br/>
+                Email: <a href="mailto:{{person.Email}}">{{person.Email}}</a>
             </li>
         </ul>
     </ion-item>
